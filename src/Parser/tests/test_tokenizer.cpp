@@ -10,17 +10,15 @@ using namespace lolilang;
 // Dump token stream for debug
 void dump_tokens(Tokenizer &tokenizer)
 {
-    TokenStream_t token_stream = tokenizer.token_stream;
-    for (std::vector<Token>::iterator i = token_stream.begin();
-         i != token_stream.end();
-         ++i) {
+    while(1) {
+        Token &t = tokenizer.get();
+        if (t.type == EOF_TOKEN) {
+            break;
+        }
         
-        std::cout << i->type 
-                  << "\t"   
-                  << i->token 
-                  << "\t"
-                  << i->linum
-                  << std::endl;
+        std::cout << t.type << "\t"
+                  << t.token << "\t"
+                  << t.linum << "\n";
     }
 }
 

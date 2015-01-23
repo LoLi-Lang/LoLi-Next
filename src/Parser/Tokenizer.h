@@ -53,7 +53,8 @@ enum TokenType
     // SHARP_LEFTPAREN
     // COMMA_AT
     EMPTY,
-    ERRORTOKEN
+    ERRORTOKEN,
+    EOF_TOKEN
 };
 
 
@@ -67,7 +68,8 @@ public:
     std::string token;
     int linum;
 
-    Token(TokenType type, std::string &token, int linum);
+    Token(TokenType type, std::string token, int linum);
+    Token(TokenType type);
     ~Token();
 };
 
@@ -80,16 +82,25 @@ typedef std::vector<Token> TokenStream_t;
 class Tokenizer 
 {
 public:
-    // The vector containing all tokens
-    TokenStream_t token_stream;
-
     Tokenizer();
     ~Tokenizer();
         
     // Scan the next character
     void scan(std::istream &file);
 
+    // Get one token, move the index
+    Token &get();
+
+    // Get one token, not moving the index
+    Token &lookahead();
+
 private:
+    // The vector containing all tokens
+    TokenStream_t token_stream;
+
+    // position of read index
+    int index;
+
     // find type of character
     CharType findCharType(const char c) const;
 

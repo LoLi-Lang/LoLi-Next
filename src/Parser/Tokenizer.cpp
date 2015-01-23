@@ -28,8 +28,13 @@ using namespace lolilang;
 // param: type - the type of Token
 // param: token - the string of token
 // param: linum - the line number of token
-Token::Token(TokenType type, std::string &token, int linum)
-    :type(type), token(token), linum(linum){}
+Token::Token(TokenType type, std::string token, int linum)
+    :type(type), token(token), linum(linum)
+{ }
+
+Token::Token(TokenType type)
+    :type(type)
+{ }
 
 // Destructor
 Token::~Token() { } 
@@ -39,7 +44,11 @@ Token::~Token() { }
 // Token class
 // --------------------------- //
 // Constructor
-Tokenizer::Tokenizer() { }
+Tokenizer::Tokenizer() 
+    : index(0)
+{
+    token_stream.push_back(Token(EOF_TOKEN));
+}
 
 
 // Destructor
@@ -68,7 +77,8 @@ CharType Tokenizer::findCharType(const char c) const
         || c == '=' || c == '>'
         || c == '?' || c == '@'
         || c == '^' || c == '_'
-        || c == '~') {
+        || c == '~' || c == '#'
+        || c == '<' || c == '>') {
         return SPECIAL_IDEN;
     }
 
@@ -104,6 +114,23 @@ bool Tokenizer::is_num(const std::string &buffer) const
 }
 
 
+// Get one token, move the index
+// return: The token to store info to
+Token& Tokenizer::get()
+{
+    Token &T = token_stream[index];
+    ++index;
+    return T;
+}
+
+
+// Get one token, not moving the index
+// return: The token to store info to
+Token& Tokenizer::lookahead()
+{
+    return token_stream[index];
+}
+
 
 // Scan the next char from file, save token stream to
 // token_stream vector
@@ -116,18 +143,20 @@ void Tokenizer::scan(std::istream &file)
     char c;
     char next;
 
+    token_stream.clear();
+
     while (file.get(c)) {
         buffer.clear();
 
-        // IDENTIFIER
+        // IDENTIFIER AND NUMBER
         if (findCharType(c) == NUMBER_CHAR
             || findCharType(c) == ALPHA_CHAR
             || findCharType(c) == SPECIAL_IDEN) {
             buffer += c;
             while(file.get(next)) {
-                if (findCharType(next) == ALPHA_CHAR
-                    || findCharType(next) == SPECIAL_IDEN
-                    || findCharType(next) == NUMBER_CHAR) {
+                if (findCharType(next) == NUMBER_CHAR
+                    || findCharType(next) == ALPHA_CHAR
+                    || findCharType(next) == SPECIAL_IDEN) {
                     buffer += next;
                 }
                 else {
@@ -234,7 +263,7 @@ void Tokenizer::scan(std::istream &file)
             }
             continue;
         }
-                
     } // while loop
-}
 
+    token_stream.push_back(Token(EOF_TOKEN));
+}

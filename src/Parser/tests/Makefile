@@ -1,8 +1,11 @@
 CXX=clang++
 PARSER_DIR=..
+BIN=test_tokenizer.out
 
-all: token_test.out
+all: $(BIN)
 
-token_test.out: test_tokenizer.cpp $(PARSER_DIR)/Tokenizer.cpp
+test_tokenizer.out: test_tokenizer.cpp $(PARSER_DIR)/Tokenizer.cpp
 	$(CXX) -o $@ $^
 
+clean:
+	-rm -f *.out *.o
