@@ -91,7 +91,10 @@ public:
 
 private:
     // find type of character
-    CharType findCharType(char c);
+    CharType findCharType(const char c) const;
+
+    // is the token a number
+    bool is_num(const std::string &buffer) const;
 };
 
 
