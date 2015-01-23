@@ -75,11 +75,12 @@ public:
 // --------------------------- //
 // Tokenizer class
 // --------------------------- //
+typedef std::vector<Token> TokenStream_t; 
+
 class Tokenizer 
 {
 public:
     // The vector containing all tokens
-    typedef std::vector<Token> TokenStream_t; 
     TokenStream_t token_stream;
 
     Tokenizer();

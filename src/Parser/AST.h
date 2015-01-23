@@ -19,6 +19,20 @@ namespace lolilang {
 
 
 // --------------------------- //
+// ASTTree class
+// --------------------------- //
+class ASTTree
+{
+public:
+    ASTTree(int position);
+    ~ASTTree();
+
+private:
+    
+}
+
+
+// --------------------------- //
 // ASTNode class
 // --------------------------- //
 class ASTNode

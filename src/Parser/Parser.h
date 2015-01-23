@@ -29,9 +29,9 @@ namespace lolilang {
 class Parser
 {
 public:
-    Tokenizer::TokenStream_t tokens;
+    TokenStream_t tokens;
 
-    Parser(const Tokenizer::TokenStream_t &tokens);
+    Parser(const TokenStream_t &tokens);
     ~Parser();
 
     void parse();
