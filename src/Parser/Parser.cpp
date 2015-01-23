@@ -35,6 +35,7 @@ void Parser::parse()
 
 }
 
+
 // The match method
 // @type: The type of input token
 void Parser::match(TokenType type)
