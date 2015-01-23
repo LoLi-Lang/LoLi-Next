@@ -37,7 +37,18 @@ public:
     void parse();
 
 private:
-    Expression *ParseExpression(tokens);
+    // match a type or string, return if matched
+    int match(const TokenType type);
+
+    int match(const string &str);
+
+    // --------------------------------------- //
+    // Syntax methods:
+    // Each one of the following method defines
+    // a part of the syntax of the LL1 Parser
+    // --------------------------------------- //
+    // Parse an Expression
+    Expression *ParseExpression();
 }
 
 

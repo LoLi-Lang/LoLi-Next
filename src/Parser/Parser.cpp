@@ -30,29 +30,36 @@ Parser::Parser(const TokenStream_t &tokens)
 // The parse method
 void Parser::parse()
 {
-    
+    if (match(LEFTPAREN)) {
+        ParseExpression(tokens);
+    }
 
-
+    match(RIGHTPAREN);
 }
 
 
 // The match method
 // @type: The type of input token
-void Parser::match(TokenType type)
+// return: If matched
+int Parser::match(const TokenType type)
 {
-
-
-
-
+    Token &t = tokens.get();
+    if (t.type == type) {
+        return true;
+    }
+    return false;
 }
 
+
 // @str: The string input of the token
-void Parser::match(string &str)
+// return: If matched
+int Parser::match(const string &str)
 {
-
-
-
-
+    Token &t = tokens.get();
+    if (t.token == str) {
+        return true;
+    }
+    return false;
 }
 
 
@@ -61,11 +68,16 @@ void Parser::match(string &str)
 // Each one of the following method defines
 // a part of the syntax of the LL1 Parser
 // --------------------------------------- //
-void Parser::ParseExpression(Tokenizer &tokens)
+// Parse an Expression
+// @tokens: The tokenizer class
+// return: ASTNode of Expression
+Expression* Parser::ParseExpression()
 {
+    Token &t = tokens.lookahead();
+    if (t.type == NAME) {
+        // keep parsing
 
+    }
 
-
-
-
+    return NULL;
 }
