@@ -1,0 +1,3 @@
+assert SYM :TYPE
+
+as-type-of SYM SYM
