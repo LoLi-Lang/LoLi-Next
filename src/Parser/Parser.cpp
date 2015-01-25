@@ -33,18 +33,6 @@ Parser::~Parser()
     
 }
 
-
-// The parse method
-void Parser::parse()
-{
-    if (match(LEFTPAREN)) {
-        ParseExpression();
-    }
-
-    match(RIGHTPAREN);
-}
-
-
 // The match method
 // @type: The type of input token
 // return: If matched
@@ -70,10 +58,22 @@ int Parser::match(const std::string &str)
 }
 
 
+// The parse method. The entry of whole parser.
+void Parser::parse()
+{
+    if (match(LEFTPAREN)) {
+        ParseExpression();
+    }
+
+    match(RIGHTPAREN);
+}
+
+
 // --------------------------------------- //
 // Syntax methods:
 // Each one of the following method defines
-// a part of the syntax of the LL1 Parser
+// a part of the syntax of the recursive 
+// descent Parser
 // --------------------------------------- //
 // Parse an Expression
 // @tokens: The tokenizer class
