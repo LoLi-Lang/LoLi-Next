@@ -116,20 +116,6 @@ private:
 };
 
 
-// --------------------------- //
-// AssignExpr Node
-// --------------------------- //
-class Conditional : public Expression
-{
-public:
-    AssignExpr(int position);
-    ~AssignExpr();
-
-private:
-    
-};
-
-
 } // namespace
 
 

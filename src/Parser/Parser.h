@@ -16,6 +16,8 @@
 #define __PARSER_H__
 
 
+#include <string>
+
 #include "Tokenizer.h"
 #include "AST.h"
 
@@ -29,9 +31,9 @@ namespace lolilang {
 class Parser
 {
 public:
-    TokenStream_t tokens;
+    Tokenizer tokenizer;
 
-    Parser(const TokenStream_t &tokens);
+    Parser(const Tokenizer& tokenizer);
     ~Parser();
 
     void parse();
@@ -40,7 +42,7 @@ private:
     // match a type or string, return if matched
     int match(const TokenType type);
 
-    int match(const string &str);
+    int match(const std::string &str);
 
     // --------------------------------------- //
     // Syntax methods:
@@ -49,7 +51,7 @@ private:
     // --------------------------------------- //
     // Parse an Expression
     Expression *ParseExpression();
-}
+};
 
 
 } // namespace lolilang

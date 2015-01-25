@@ -20,8 +20,15 @@ using namespace lolilang;
 
 // Constructor for parser
 // @tokens: The input token stream 
-Parser::Parser(const TokenStream_t &tokens)
-    :tokens(tokens)
+Parser::Parser(const Tokenizer &tokenizer)
+    :tokenizer(tokenizer)
+{
+    
+}
+
+
+// Destructor for parser
+Parser::~Parser()
 {
     
 }
@@ -31,7 +38,7 @@ Parser::Parser(const TokenStream_t &tokens)
 void Parser::parse()
 {
     if (match(LEFTPAREN)) {
-        ParseExpression(tokens);
+        ParseExpression();
     }
 
     match(RIGHTPAREN);
@@ -43,7 +50,7 @@ void Parser::parse()
 // return: If matched
 int Parser::match(const TokenType type)
 {
-    Token &t = tokens.get();
+    Token &t = tokenizer.get();
     if (t.type == type) {
         return true;
     }
@@ -53,9 +60,9 @@ int Parser::match(const TokenType type)
 
 // @str: The string input of the token
 // return: If matched
-int Parser::match(const string &str)
+int Parser::match(const std::string &str)
 {
-    Token &t = tokens.get();
+    Token &t = tokenizer.get();
     if (t.token == str) {
         return true;
     }
@@ -73,7 +80,7 @@ int Parser::match(const string &str)
 // return: ASTNode of Expression
 Expression* Parser::ParseExpression()
 {
-    Token &t = tokens.lookahead();
+    Token &t = tokenizer.lookahead();
     if (t.type == NAME) {
         // keep parsing
 
