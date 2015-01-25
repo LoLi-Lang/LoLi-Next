@@ -32,8 +32,8 @@ Token::Token(TokenType type, std::string token, int linum)
     :type(type), token(token), linum(linum)
 { }
 
-Token::Token(TokenType type)
-    :type(type)
+Token::Token(TokenType type, int linum)
+    :type(type), linum(linum)
 { }
 
 // Destructor
@@ -47,7 +47,7 @@ Token::~Token() { }
 Tokenizer::Tokenizer() 
     : index(0)
 {
-    token_stream.push_back(Token(EOF_TOKEN));
+    token_stream.push_back(Token(EOF_TOKEN, 0));
 }
 
 
@@ -55,10 +55,28 @@ Tokenizer::Tokenizer()
 Tokenizer::~Tokenizer() { } 
 
 
+// Get one token, move the index
+// return: The token to store info to
+Token& Tokenizer::get()
+{
+    Token &T = token_stream[index];
+    ++index;
+    return T;
+}
+
+
+// Get one token, not moving the index
+// return: The token to store info to
+Token& Tokenizer::lookahead()
+{
+    return token_stream[index];
+}
+
+
 // Find the type of the incoming character
 // @c - the input char
 // return: the chartype of the input char
-CharType Tokenizer::findCharType(const char c) const
+CharType Tokenizer::find_char_type(const char c) const
 {
     if ('0' <= c && c <= '9') {
         return NUMBER_CHAR;
@@ -78,7 +96,9 @@ CharType Tokenizer::findCharType(const char c) const
         || c == '?' || c == '@'
         || c == '^' || c == '_'
         || c == '~' || c == '#'
-        || c == '<' || c == '>') {
+        || c == '<' || c == '>'
+        || c == '{' || c == '}'
+        || c == '|') {
         return SPECIAL_IDEN;
     }
 
@@ -101,6 +121,7 @@ CharType Tokenizer::findCharType(const char c) const
 
 // Is the token a number
 // @buffer: The input buffer string
+// return: If it's valid number string
 bool Tokenizer::is_num(const std::string &buffer) const
 {
     char *pend;
@@ -114,21 +135,32 @@ bool Tokenizer::is_num(const std::string &buffer) const
 }
 
 
-// Get one token, move the index
-// return: The token to store info to
-Token& Tokenizer::get()
+// convert escaped char string
+// @c: the char after escape sign
+// return: the corresponding char
+char Tokenizer::convert_char(const char c) const
 {
-    Token &T = token_stream[index];
-    ++index;
-    return T;
-}
-
-
-// Get one token, not moving the index
-// return: The token to store info to
-Token& Tokenizer::lookahead()
-{
-    return token_stream[index];
+    switch (c) {
+    case 'a': return '\a';
+        break;
+    case 'b': return '\b';
+        break;
+    case 'n': return '\n';
+        break;
+    case 'r': return '\r';
+        break;
+    case 't': return '\t';
+        break;
+    case '\\': return '\\';
+        break;
+    case '"': return '"';
+        break;
+    case '\'': return '\'';
+        break;
+    default: 
+        return c;
+        break;
+    }
 }
 
 
@@ -149,14 +181,14 @@ void Tokenizer::scan(std::istream &file)
         buffer.clear();
 
         // IDENTIFIER AND NUMBER
-        if (findCharType(c) == NUMBER_CHAR
-            || findCharType(c) == ALPHA_CHAR
-            || findCharType(c) == SPECIAL_IDEN) {
+        if (find_char_type(c) == NUMBER_CHAR
+            || find_char_type(c) == ALPHA_CHAR
+            || find_char_type(c) == SPECIAL_IDEN) {
             buffer += c;
             while(file.get(next)) {
-                if (findCharType(next) == NUMBER_CHAR
-                    || findCharType(next) == ALPHA_CHAR
-                    || findCharType(next) == SPECIAL_IDEN) {
+                if (find_char_type(next) == NUMBER_CHAR
+                    || find_char_type(next) == ALPHA_CHAR
+                    || find_char_type(next) == SPECIAL_IDEN) {
                     buffer += next;
                 }
                 else {
@@ -179,7 +211,7 @@ void Tokenizer::scan(std::istream &file)
         }   
 
         // COMMENTS
-        if (findCharType(c) == COMMENT_CHAR) {
+        if (find_char_type(c) == COMMENT_CHAR) {
             while (file.get(next)) {
                 if (next == '\n' || next == '\r') {
                     break;
@@ -187,6 +219,25 @@ void Tokenizer::scan(std::istream &file)
             }
             file.putback(next);
             continue;
+        }
+
+        // CHAR
+        if (c == '\'') {
+            file.get(next);
+            if (next != '\\') {
+                buffer += next;
+            }
+            else {
+                file.get(next);
+                buffer += convert_char(next);
+            }
+            file.get(next);
+            if (next == '\'') {
+                token_stream.push_back(Token(CHAR, buffer, linum));
+            }
+            else {
+                token_stream.push_back(Token(ERRORTOKEN, linum));
+            }
         }
 
         // SRTING
@@ -198,24 +249,6 @@ void Tokenizer::scan(std::istream &file)
                 if (next == '\\') {
                     file.get(next);
                     // Deal with special ASCII chars
-                    switch (next) {
-                    case 'a': buffer += '\a';
-                        break;
-                    case 'b': buffer += '\b';
-                        break;
-                    case 'n': buffer += '\n';
-                        break;
-                    case 'r': buffer += '\r';
-                        break;
-                    case 't': buffer += '\t';
-                        break;
-                    case '\\': buffer += '\\';
-                        break;
-                    case '"': buffer += '"';
-                        break;
-                    default: 
-                        break;
-                    }
                 }
                 else {
                     buffer += next;
@@ -227,7 +260,7 @@ void Tokenizer::scan(std::istream &file)
         }
         
         // EMPTY
-        if (findCharType(c) == EMPTY_CHAR) {
+        if (find_char_type(c) == EMPTY_CHAR) {
             if (c == '\n' || c == '\r') {
                 linum++;
             }
@@ -235,7 +268,7 @@ void Tokenizer::scan(std::istream &file)
                 if (next == '\n' || c == '\r') {
                     linum++;
                 }
-                if (findCharType(next) != EMPTY_CHAR) {
+                if (find_char_type(next) != EMPTY_CHAR) {
                     break;
                 }
             }
@@ -244,7 +277,7 @@ void Tokenizer::scan(std::istream &file)
         }
 
         // SPECIAL
-        if (findCharType(c) == SPECIAL_CHAR) {
+        if (find_char_type(c) == SPECIAL_CHAR) {
             buffer += c;
 
             switch(c) {
@@ -258,6 +291,8 @@ void Tokenizer::scan(std::istream &file)
                 break;
             case ')': token_stream.push_back(Token(RIGHTPAREN, buffer, linum));
                 break;
+            case '\\': token_stream.push_back(Token(BACKSLASH, buffer, linum));
+                break;
             default:
                 break;
             }
@@ -265,5 +300,5 @@ void Tokenizer::scan(std::istream &file)
         }
     } // while loop
 
-    token_stream.push_back(Token(EOF_TOKEN));
+    token_stream.push_back(Token(EOF_TOKEN, linum));
 }
