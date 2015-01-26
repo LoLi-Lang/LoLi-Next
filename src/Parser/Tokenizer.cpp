@@ -95,9 +95,8 @@ CharType Tokenizer::find_char_type(const char c) const
         || c == '=' || c == '>'
         || c == '?' || c == '@'
         || c == '^' || c == '_'
-        || c == '~' || c == '#'
         || c == '<' || c == '>'
-        || c == '{' || c == '}'
+        || c == '~' || c == '#'
         || c == '|') {
         return SPECIAL_IDEN;
     }
@@ -294,6 +293,7 @@ void Tokenizer::scan(std::istream &file)
             case '\\': token_stream.push_back(Token(BACKSLASH, buffer, linum));
                 break;
             default:
+                token_stream.push_back(Token(SPECIAL, buffer, linum));
                 break;
             }
             continue;

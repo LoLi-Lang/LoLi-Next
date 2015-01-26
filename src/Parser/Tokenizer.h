@@ -52,6 +52,7 @@ enum TokenType
     COMMA,
     DOT,
     BACKSLASH,
+    SPECIAL,
     // SHARP_LEFTPAREN
     // COMMA_AT
     EMPTY,
