@@ -18,6 +18,7 @@
 
 
 using namespace lolilang;
+using namespace tokenizer;
 
 
 // --------------------------- //

@@ -22,8 +22,11 @@
 #include "AST.h"
 
 
-namespace lolilang {
 
+namespace lolilang {
+namespace parser {
+
+using namespace tokenizer;
 
 // --------------------------- //
 // Parser class
@@ -60,6 +63,7 @@ private:
 };
 
 
+} // namespace parser
 } // namespace lolilang
 
 

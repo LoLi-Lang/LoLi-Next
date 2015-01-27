@@ -22,7 +22,7 @@
 
 
 namespace lolilang {
-
+namespace tokenizer {
 
 // --------------------------- //
 // Typedefs and constants
@@ -136,6 +136,7 @@ private:
 };
 
 
+} // namespace tokenizer
 } // namespace lolilang
 
 

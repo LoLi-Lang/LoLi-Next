@@ -5,7 +5,8 @@
 #include "../Parser.h"
 
 using namespace lolilang;
-
+using namespace tokenizer;
+using namespace parser;
 
 int main()
 {

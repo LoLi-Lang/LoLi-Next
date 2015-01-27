@@ -19,6 +19,8 @@
 
 
 using namespace lolilang;
+using namespace tokenizer;
+using namespace parser;
 
 
 // Constructor for parser
