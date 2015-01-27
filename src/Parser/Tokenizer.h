@@ -60,6 +60,26 @@ enum TokenType
     EOF_TOKEN
 };
 
+static const char *TokenTypeString[] = 
+{
+    "NAME",
+    "NUMBER",
+    "CHAR",
+    "STRING",
+    "BOOLEAN",
+    "LEFTPAREN",
+    "RIGHTPAREN",
+    "SINGLEQUOTE",
+    "ACUTE",
+    "COMMA",
+    "DOT",
+    "BACKSLASH",
+    "SPECIAL",
+    "EMPTY",
+    "ERRORTOKEN",
+    "EOF_TOKEN"
+};
+
 
 // --------------------------- //
 // Token class
@@ -67,6 +87,7 @@ enum TokenType
 class Token
 {
 public:
+
     TokenType type;
     std::string token;
     int linum;

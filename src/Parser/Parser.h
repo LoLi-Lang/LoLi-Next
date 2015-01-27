@@ -42,7 +42,15 @@ private:
     // match a type or string, return if matched
     int match(const TokenType type);
 
-    int match(const std::string &str);
+    int match(const std::string &expect);
+
+    // match a type or string, return if matched
+    int lookahead(const TokenType type);
+
+    int lookahead(const std::string &expect);
+
+    // handle and print out error
+    void handle_error(const Token &t, const std::string &expect) const;
 
     // --------------------------------------- //
     // Syntax methods:

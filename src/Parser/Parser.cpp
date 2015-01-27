@@ -14,6 +14,9 @@
 
 #include "Parser.h"
 
+#include <cassert>
+#include <iostream>
+
 
 using namespace lolilang;
 
@@ -33,6 +36,7 @@ Parser::~Parser()
     
 }
 
+
 // The match method
 // @type: The type of input token
 // return: If matched
@@ -42,19 +46,60 @@ int Parser::match(const TokenType type)
     if (t.type == type) {
         return true;
     }
+
+    // handle error
+    handle_error(t, TokenTypeString[type]);
+
     return false;
 }
 
 
 // @str: The string input of the token
 // return: If matched
-int Parser::match(const std::string &str)
+int Parser::match(const std::string &expect)
 {
     Token &t = tokenizer.get();
-    if (t.token == str) {
+    if (t.token == expect) {
+        return true;
+    }
+
+    handle_error(t, expect);
+
+    return false;
+}
+
+
+// The lookahead method
+// @type: The type of input token
+// return: If matched
+int Parser::lookahead(const TokenType type)
+{
+    Token &t = tokenizer.lookahead();
+    if (t.type == type) {
         return true;
     }
     return false;
+}
+
+// @str: The string input of the token
+// return: If matched
+int Parser::lookahead(const std::string &expect)
+{
+    Token &t = tokenizer.lookahead();
+    if (t.token == expect) {
+        return true;
+    }
+    return false;
+}
+
+
+// handle and print out error
+// @t: The input token where there's error
+void Parser::handle_error(const Token &t, const std::string& expect) const
+{
+    std::cout << "[ERROR] Illegal token: " << t.token 
+              << " on line: " << t.linum << ". "
+              << "Expect: " << expect << std::endl;
 }
 
 
@@ -80,10 +125,20 @@ void Parser::parse()
 // return: ASTNode of Expression
 Expression* Parser::ParseExpression()
 {
-    Token &t = tokenizer.lookahead();
-    if (t.type == NAME) {
-        // keep parsing
+    Token &first = tokenizer.lookahead();
 
+    if (first.type == NAME) {
+        while (1) {
+            Token &follow = tokenizer.lookahead();
+
+            if (follow.type != NAME) {
+                break;
+            }
+
+            match(NAME);
+            std::cout << "[INFO] Parsed a " << follow.token
+                      << std::endl;
+        }
     }
 
     return NULL;
