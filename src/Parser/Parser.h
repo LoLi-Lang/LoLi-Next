@@ -45,9 +45,7 @@ private:
     int match(const std::string &expect);
 
     // match a type or string, return if matched
-    int lookahead(const TokenType type);
-
-    int lookahead(const std::string &expect);
+    Token &lookahead();
 
     // handle and print out error
     void handle_error(const Token &t, const std::string &expect) const;

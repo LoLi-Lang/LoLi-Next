@@ -72,24 +72,9 @@ int Parser::match(const std::string &expect)
 // The lookahead method
 // @type: The type of input token
 // return: If matched
-int Parser::lookahead(const TokenType type)
+Token &Parser::lookahead()
 {
-    Token &t = tokenizer.lookahead();
-    if (t.type == type) {
-        return true;
-    }
-    return false;
-}
-
-// @str: The string input of the token
-// return: If matched
-int Parser::lookahead(const std::string &expect)
-{
-    Token &t = tokenizer.lookahead();
-    if (t.token == expect) {
-        return true;
-    }
-    return false;
+    return tokenizer.lookahead();
 }
 
 
@@ -125,11 +110,11 @@ void Parser::parse()
 // return: ASTNode of Expression
 Expression* Parser::ParseExpression()
 {
-    Token &first = tokenizer.lookahead();
+    Token &first = lookahead();
 
     if (first.type == NAME) {
         while (1) {
-            Token &follow = tokenizer.lookahead();
+            Token &follow = lookahead();
 
             if (follow.type != NAME) {
                 break;
