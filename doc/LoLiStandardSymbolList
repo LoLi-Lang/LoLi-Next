@@ -21,7 +21,8 @@ The type will be denoted as:
 which means:
 (\\ :TYPEn ( (ARG1 :TYPE1) (ARG2 :TYPE2) ... (ARGn-1 :TYPEn-1) ) EXP)
 
-Basic Symbols:
+Standard Symbols:
+Symbol:     Type ID:
 T           :SYM
 
 NIL         :SYM
