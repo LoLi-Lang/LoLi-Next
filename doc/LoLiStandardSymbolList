@@ -1,0 +1,70 @@
+LoLi Standard Symbol List
+
+Types:
+Object                      :OBJ
+|---Number                  :NUM
+    |---Integer             :INT
+    |---Float               :FLT
+    |---Ratio               :RAT
+|---Symbol                  :SYM
+|---Keyword                 :KEY
+    |---Boolean             :BOOL
+|---Function                :FN
+    |---Lambda              :LAMBDA
+    |---Primitve Procedure  :PROC
+|---Cons                    :CONS
+|---Character               :CHAR
+|---String                  :STR
+
+The type will be denoted as:
+:TYPE1 -> :TYPE2 -> ... -> TYPEn
+which means:
+(\\ :TYPEn ( (ARG1 :TYPE1) (ARG2 :TYPE2) ... (ARGn-1 :TYPEn-1) ) EXP)
+
+Basic Symbols:
+T           :SYM
+
+NIL         :SYM
+
+:TRUE       :BOOL
+
+:FALSE      :BOOL
+
+DEF         :SYM -> :OBJ -> :OBJ
+    (DEF SYM VALUE) => VALUE or ERROR
+
+DEFT        :SYM -> :OBJ -> :KEY -> :OBJ
+    (DEF SYM VALUE :TYPE) => VALUE or ERROR
+
+SET!        :SYM -> :OBJ -> :OBJ
+    (SET! SYM VALUE) => VALUE or ERROR
+
+SETT!        :SYM -> :OBJ -> :KEY -> :OBJ
+    (SETT! SYM VALUE :TYPE) => VALUE or ERROR
+
+\\          :KEY -> :CONS -> :OBJ -> :LAMBDA
+    (\\ :TYPE (ARGS) EXP) => LAMBDA EXPRESSION
+
+WITH        :SYM -> :OBJ -> :OBJ -> :OBJ
+    (WITH SYM VALUE EXP) => RETURN OF EXP
+
+LET         :CONS -> :OBJ -> :OBJ
+    (LET (BINDS) EXP) => RETURN OF EXP
+
+QUOTE       :OBJ -> :OBJ
+    (QUOTE OBJ) => OBJ
+
+SAY         :SYM -> :TYPE -> :OBJ -> :OBJ
+    (SAY SYM :TYPE EXP) => RETURN OF EXP
+
+ASSERT      :CONS -> :OBJ -> :OBJ
+    (ASSERT (TYPE BINDS) EXP) => RETURN OF EXP
+
+MAP         :FN -> :CONS -> :CONS
+    (MAP FN LST) -> List of result
+
+FOLD        :FN -> :CONS -> :OBJ
+    (FOLD FN LST) => Result
+
+FOLDR       :FN -> :CONS -> :OBJ
+    (FOLDR FN LST) => Result
