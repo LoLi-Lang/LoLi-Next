@@ -68,3 +68,15 @@ FOLD        :FN -> :CONS -> :OBJ
 
 FOLDR       :FN -> :CONS -> :OBJ
     (FOLDR FN LST) => Result
+
+CONS        :OBJ -> :OBJ -> :CONS
+    (CONS HEAD TAIL) => Cons Structure
+
+HEAD        :CONS -> :OBJ
+    (HEAD CONS) => Head
+
+TAIL        :CONS -> :OBJ
+    (TAIL CONS) => TAIL
+
+LIST        :OBJ -> :OBJ -> ... -> :OBJ -> :CONS
+    (LIST OBJ1 OBJ2 ... OBJn) => List
