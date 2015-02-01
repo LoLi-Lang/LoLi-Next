@@ -1,11 +1,10 @@
-
-
 #include <iostream>
 #include <string>
 
 #include "../Tokenizer.h"
 
 using namespace lolilang;
+using namespace tokenizer;
 
 // Dump token stream for debug
 void dump_tokens(Tokenizer &tokenizer)

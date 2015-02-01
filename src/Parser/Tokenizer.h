@@ -22,7 +22,7 @@
 
 
 namespace lolilang {
-
+namespace tokenizer {
 
 // --------------------------- //
 // Typedefs and constants
@@ -42,6 +42,7 @@ enum TokenType
 {
     NAME,
     NUMBER,
+    CHAR,
     STRING,
     BOOLEAN,
     LEFTPAREN,
@@ -50,11 +51,33 @@ enum TokenType
     ACUTE,
     COMMA,
     DOT,
+    BACKSLASH,
+    SPECIAL,
     // SHARP_LEFTPAREN
     // COMMA_AT
     EMPTY,
     ERRORTOKEN,
     EOF_TOKEN
+};
+
+static const char *TokenTypeString[] = 
+{
+    "NAME",
+    "NUMBER",
+    "CHAR",
+    "STRING",
+    "BOOLEAN",
+    "LEFTPAREN",
+    "RIGHTPAREN",
+    "SINGLEQUOTE",
+    "ACUTE",
+    "COMMA",
+    "DOT",
+    "BACKSLASH",
+    "SPECIAL",
+    "EMPTY",
+    "ERRORTOKEN",
+    "EOF_TOKEN"
 };
 
 
@@ -64,12 +87,13 @@ enum TokenType
 class Token
 {
 public:
+
     TokenType type;
     std::string token;
     int linum;
 
     Token(TokenType type, std::string token, int linum);
-    Token(TokenType type);
+    Token(TokenType type, int linum);
     ~Token();
 };
 
@@ -102,13 +126,17 @@ private:
     int index;
 
     // find type of character
-    CharType findCharType(const char c) const;
+    CharType find_char_type(const char c) const;
 
     // is the token a number
     bool is_num(const std::string &buffer) const;
+
+    // convert escaped char string
+    char convert_char(const char c) const;
 };
 
 
+} // namespace tokenizer
 } // namespace lolilang
 
 

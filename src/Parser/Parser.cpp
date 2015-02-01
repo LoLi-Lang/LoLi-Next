@@ -14,27 +14,28 @@
 
 #include "Parser.h"
 
+#include <cassert>
+#include <iostream>
+
 
 using namespace lolilang;
+using namespace tokenizer;
+using namespace parser;
 
 
 // Constructor for parser
 // @tokens: The input token stream 
-Parser::Parser(const TokenStream_t &tokens)
-    :tokens(tokens)
+Parser::Parser(const Tokenizer &tokenizer)
+    :tokenizer(tokenizer)
 {
     
 }
 
 
-// The parse method
-void Parser::parse()
+// Destructor for parser
+Parser::~Parser()
 {
-    if (match(LEFTPAREN)) {
-        ParseExpression(tokens);
-    }
-
-    match(RIGHTPAREN);
+    
 }
 
 
@@ -43,40 +44,88 @@ void Parser::parse()
 // return: If matched
 int Parser::match(const TokenType type)
 {
-    Token &t = tokens.get();
+    Token &t = tokenizer.get();
     if (t.type == type) {
         return true;
     }
+
+    // handle error
+    handle_error(t, TokenTypeString[type]);
+
     return false;
 }
 
 
 // @str: The string input of the token
 // return: If matched
-int Parser::match(const string &str)
+int Parser::match(const std::string &expect)
 {
-    Token &t = tokens.get();
-    if (t.token == str) {
+    Token &t = tokenizer.get();
+    if (t.token == expect) {
         return true;
     }
+
+    handle_error(t, expect);
+
     return false;
+}
+
+
+// The lookahead method
+// @type: The type of input token
+// return: If matched
+Token &Parser::lookahead()
+{
+    return tokenizer.lookahead();
+}
+
+
+// handle and print out error
+// @t: The input token where there's error
+void Parser::handle_error(const Token &t, const std::string& expect) const
+{
+    std::cout << "[ERROR] Illegal token: " << t.token 
+              << " on line: " << t.linum << ". "
+              << "Expect: " << expect << std::endl;
+}
+
+
+// The parse method. The entry of whole parser.
+void Parser::parse()
+{
+    if (match(LEFTPAREN)) {
+        ParseExpression();
+    }
+
+    match(RIGHTPAREN);
 }
 
 
 // --------------------------------------- //
 // Syntax methods:
 // Each one of the following method defines
-// a part of the syntax of the LL1 Parser
+// a part of the syntax of the recursive 
+// descent Parser
 // --------------------------------------- //
 // Parse an Expression
 // @tokens: The tokenizer class
 // return: ASTNode of Expression
 Expression* Parser::ParseExpression()
 {
-    Token &t = tokens.lookahead();
-    if (t.type == NAME) {
-        // keep parsing
+    Token &first = lookahead();
 
+    if (first.type == NAME) {
+        while (1) {
+            Token &follow = lookahead();
+
+            if (follow.type != NAME) {
+                break;
+            }
+
+            match(NAME);
+            std::cout << "[INFO] Parsed a " << follow.token
+                      << std::endl;
+        }
     }
 
     return NULL;
