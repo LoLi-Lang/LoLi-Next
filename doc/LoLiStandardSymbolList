@@ -1,6 +1,6 @@
 LoLi Standard Symbol List
 
-Types:
+Types:                      Identifier
 Object                      :OBJ
 |---Number                  :NUM
     |---Integer             :INT
