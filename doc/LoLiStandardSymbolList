@@ -49,7 +49,7 @@ SETT!        :SYM -> :OBJ -> :KEY -> :OBJ
 WITH        :SYM -> :OBJ -> :OBJ -> :OBJ
     (WITH SYM VALUE EXP) => RETURN OF EXP
 
-LET         :CONS -> :OBJ -> :OBJ
+LET         [:SYM -> :OBJ] -> :OBJ -> :OBJ
     (LET (BINDS) EXP) => RETURN OF EXP
 
 QUOTE       :OBJ -> :OBJ
@@ -58,8 +58,14 @@ QUOTE       :OBJ -> :OBJ
 SAY         :SYM -> :TYPE -> :OBJ -> :OBJ
     (SAY SYM :TYPE EXP) => RETURN OF EXP
 
-ASSERT      :CONS -> :OBJ -> :OBJ
+ASSERT      [:SYM -> :KEY] -> :OBJ -> :OBJ
     (ASSERT (TYPE BINDS) EXP) => RETURN OF EXP
+
+TYPE-OF     :SYM -> :SYM -> :OBJ -> :OBJ
+    (TYPE-OF SYM1 SYM2 EXP) => RETURN OF EXP
+    
+TYPE-OF-R   [:SYM -> :SYM] -> :OBJ -> :OBJ
+    (TYPE-OF ((SYM1 SYM2) (SYM3 SYM4) ... (SYMn SYMn+1)) EXP) => RETURN OF EXP
 
 MAP         :FN -> :CONS -> :CONS
     (MAP FN LST) -> List of result
