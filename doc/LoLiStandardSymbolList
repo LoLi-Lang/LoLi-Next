@@ -17,9 +17,17 @@ Object                      :OBJ
 |---String                  :STR
 
 The type will be denoted as:
-:TYPE1 -> :TYPE2 -> ... -> TYPEn
+:TYPE1 -> :TYPE2 -> ... -> OBJ -> TYPEn
 which means:
 (\\ :TYPEn ( (ARG1 :TYPE1) (ARG2 :TYPE2) ... (ARGn-1 :TYPEn-1) ) EXP)
+and:
+[:TYPE]
+which means:
+List of objects of TYPE
+and:
+[:TYPE1 -> :TYPE2 -> ... -> :TYPEn]
+means:
+( (OBJ1 OBJ2 ... OBJn) ... )
 
 Standard Symbols:
 Symbol:     Type ID:
@@ -43,7 +51,7 @@ SET!        :SYM -> :OBJ -> :OBJ
 SETT!        :SYM -> :OBJ -> :KEY -> :OBJ
     (SETT! SYM VALUE :TYPE) => VALUE or ERROR
 
-\\          :KEY -> :CONS -> :OBJ -> :LAMBDA
+\\          :KEY -> [:SYM -> :KEY] -> :OBJ -> :LAMBDA
     (\\ :TYPE (ARGS) EXP) => LAMBDA EXPRESSION
 
 WITH        :SYM -> :OBJ -> :OBJ -> :OBJ
@@ -55,7 +63,7 @@ LET         [:SYM -> :OBJ] -> :OBJ -> :OBJ
 QUOTE       :OBJ -> :OBJ
     (QUOTE OBJ) => OBJ
 
-SAY         :SYM -> :TYPE -> :OBJ -> :OBJ
+SAY         :SYM -> :KEY -> :OBJ -> :OBJ
     (SAY SYM :TYPE EXP) => RETURN OF EXP
 
 ASSERT      [:SYM -> :KEY] -> :OBJ -> :OBJ
