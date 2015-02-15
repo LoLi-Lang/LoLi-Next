@@ -2,3 +2,18 @@ Interpreter in C / C++
 Compiler that compiles LoLi code into LLVM IR
 Combine the whole thing
 Cheers
+
+Misc:
+Visual-LoLi (DSL for making text editor in LoLi)
+LoLi-Web (Web framework in LoLi) (Need a better name)
+LoLi-ASM (Assembler in LoLi) (Need a better name)
+
+Goal:
+To make LoLi a real "full-stack" language including:
+Meta-DSL
+DSL
+Using as script
+Run with interpreter
+Compile into binary
+Lower-Level (ASM level)
+(with great thanks to my friend Nenad, creator of the Red Language, for the idea of "full-stack language")
