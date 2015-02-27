@@ -95,3 +95,7 @@ TAIL        :CONS -> :OBJ
 
 LIST        :OBJ -> :OBJ -> ... -> :OBJ -> :CONS
     (LIST OBJ1 OBJ2 ... OBJn) => List
+
+REQUIRE-MODULE :SYM -> :BOOL
+    (REQUIRE-MODULE NAME) -> TRUE or FALSE
+
