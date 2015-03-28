@@ -3,10 +3,10 @@
  *
  *       Filename:  types.cpp
  *
- *    Description:  Type Class
+ *    Description:  Type Class Of LoLi
  *
  *        Version:  1.0
- *        Created:  02/13/2015 11:48:58 PM
+ *        Created:  03/28/2015 02:47:22 AM
  *       Revision:  none
  *       Compiler:  gcc
  *
@@ -27,12 +27,21 @@ namespace lolilang{
         return tmp;
     }
 
+    typeClass* typeClass::newListedType(string name){
+        typeClass* tmp = new typeClass(name);
+        tmp->parent = this;
+        tmp->listOf = true;
+        children.push_back(tmp);
+        return tmp;
+    }
+
     typeClass::typeClass(){
         //Empty Constructor
     }
 
     typeClass::typeClass(string name){
         id = name;
+        global_types.push_back(this);
     }
 
     typeClass::~typeClass(){
@@ -42,6 +51,8 @@ namespace lolilang{
             delete *iteratorOfChildren;
         }
     }
-    
 
+    static void initGlobalTypes(){
+
+    }
 }

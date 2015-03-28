@@ -28,41 +28,60 @@ using namespace std;
 
 namespace lolilang{
 
-//    typeId:
-//        OBJ,
-//        NUM,
-//        INT,
-//        FLT,
-//        RAT,
-//        SYM,
-//        KEY,
-//        BOOL,
-//        FN,
-//        LAMBDA,
-//        PROC,
-//        CONS,
-//        CHAR,
-//        STR
+    //    typeId:
+    //        OBJ,
+    //        NUM,
+    //        INT,
+    //        FLT,
+    //        RAT,
+    //        SYM,
+    //        KEY,
+    //        BOOL,
+    //        FN,
+    //        LAMBDA,
+    //        PROC,
+    //        CONS,
+    //        CHAR,
+    //        STR
 
     class typeClass{
         public:
-        string id;  
-        typeClass* parent = NULL;
-        vector<typeClass*> children;
-        vector<typeClass*>::iterator iteratorOfChildren;
+            string id;  
+            typeClass* parent;
+            vector<typeClass*> children;
+            vector<typeClass*>::iterator iteratorOfChildren;
+            bool listOf;
 
-        typeClass* newChildType(string name);
-        
-        typeClass();
+            typeClass* newChildType(string name);
 
-        typeClass(string name);
+            typeClass* newListedType(string name);
 
-        ~typeClass();
+            typeClass();
+
+            typeClass(string name);
+
+            ~typeClass();
+
+            string to_string();
     };
-    
+
+    class compoundType : public typeClass{
+        public:
+            bool compund = true;
+
+            compoundType();
+
+            compoundType(typeClass* next);
+
+            ~compoundType();
+
+            string to_string();
+
+    };
+
     static vector<typeClass*> global_types;
     static vector<typeClass*>::iterator global_types_iterator;
-    
+
     static void initGlobalTypes();
 }
 
