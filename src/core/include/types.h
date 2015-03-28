@@ -51,6 +51,7 @@ namespace lolilang{
             vector<typeClass*> children;
             vector<typeClass*>::iterator iteratorOfChildren;
             bool listOf;
+            bool compund;
 
             typeClass* newChildType(string name);
 
@@ -67,11 +68,14 @@ namespace lolilang{
 
     class compoundType : public typeClass{
         public:
-            bool compund = true;
+            typeClass* current;
+            typeClass* next;
 
             compoundType();
 
-            compoundType(typeClass* next);
+            compoundType(typeClass* tc);
+            
+            compoundType(typeClass* tc, typeClass* n);
 
             ~compoundType();
 
