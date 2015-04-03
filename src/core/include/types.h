@@ -21,6 +21,7 @@
 
 #include <stdlib.h>
 #include <string>
+#include <vector>
 
 using namespace std;
 
@@ -30,6 +31,7 @@ namespace lolilang{
         public:
             string id;  
             typeClass* parent;
+            vector<typeClass*> children;
             bool listOf;
             bool compund;
 
@@ -59,10 +61,11 @@ namespace lolilang{
 
             ~compoundType();
 
+            void set_next(typeClass* n);
             string to_string();
-            string to_string(bool inside);
-
     };
+
+    static vector<typeClass*> global_type_env;
 
     static typeClass* t_obj;
     static typeClass* t_num;
@@ -79,7 +82,7 @@ namespace lolilang{
     static typeClass* t_char;
     static typeClass* t_str;
 
-    void initGlobalTypes();
+    vector<typeClass*> initGlobalTypes();
 }
 
 #endif

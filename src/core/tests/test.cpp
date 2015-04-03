@@ -17,10 +17,8 @@
  */
 
 #include "../include/types.h"
-
 #include <iostream>
-
-#include	<stdlib.h>
+#include <stdlib.h>
 
 using namespace lolilang;
 /* 
@@ -30,9 +28,13 @@ using namespace lolilang;
  * =====================================================================================
  */
 int main ( int argc, char *argv[] ){
-    initGlobalTypes();
-    for(vector<typeClass*>::iterator i = global_types->begin(); i != global_types->end(); i++){
-        std::cout<<*i<<std::endl;
+    auto tmp = initGlobalTypes();
+    std::cout<<global_type_env.size()<<std::endl;
+    for(ulong i = 0; i < global_type_env.size(); i++){
+        std::cout<<i<<"\t"<<global_type_env[i]->to_string()<<std::endl;
     }
+    compoundType* testCT = new compoundType(t_obj);
+    testCT->set_next(new compoundType(t_int, t_sym));
+    std::cout<<testCT->to_string()<<std::endl;
     return 0;
 }
