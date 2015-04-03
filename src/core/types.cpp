@@ -89,7 +89,7 @@ namespace lolilang{
     string compoundType::to_string(){
         std::cout<<"CT tostring\t"<<std::endl;
         if(next->compund){
-            return current->to_string() + " -> "+ ((compoundType*)next)->to_string();
+            return current->to_string() + " -> "+ next->to_string();
         }else{
             return current->to_string() + " -> " + next->to_string() + " ]";
         }
