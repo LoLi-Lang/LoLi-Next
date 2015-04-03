@@ -18,7 +18,6 @@
 
 #include "../include/types.h"
 
-
 #include <iostream>
 
 #include	<stdlib.h>
@@ -30,10 +29,10 @@ using namespace lolilang;
  *  Description:  
  * =====================================================================================
  */
-    int
-main ( int argc, char *argv[] ){
-    for(global_types_iterator = global_types.begin(); global_types_iterator != global_types.end(); global_types_iterator++){
-        std::cout<<(*global_types_iterator)->to_string()<<std::endl;
+int main ( int argc, char *argv[] ){
+    initGlobalTypes();
+    for(vector<typeClass*>::iterator i = global_types->begin(); i != global_types->end(); i++){
+        std::cout<<*i<<std::endl;
     }
     return 0;
 }

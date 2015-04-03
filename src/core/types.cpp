@@ -17,13 +17,13 @@
  */
 
 #include "include/types.h"
+#include <iostream>
 
 namespace lolilang{
 
     typeClass* typeClass::newChildType(string name){
         typeClass* tmp = new typeClass(name);
         tmp->parent = this;
-        children.push_back(tmp);
         return tmp;
     }
 
@@ -31,7 +31,6 @@ namespace lolilang{
         typeClass* tmp = new typeClass(name);
         tmp->parent = this;
         tmp->listOf = true;
-        children.push_back(tmp);
         return tmp;
     }
 
@@ -43,7 +42,7 @@ namespace lolilang{
     typeClass::typeClass(string name){
         compund = false;
         id = name;
-        global_types.push_back(this);
+        std::cout<<"Creating "<<name<<std::endl;
     }
 
     typeClass::~typeClass(){
@@ -80,28 +79,35 @@ namespace lolilang{
 
     string compoundType::to_string(){
         if(next->compund){
-            return current->to_string() + " -> "+ ((compoundType*)next)->to_string();
+            return current->to_string() + " -> "+ ((compoundType*)next)->to_string(true);
         }else{
-            return current->to_string() + " -> " + next->to_string();
+            return current->to_string() + " -> " + next->to_string() + " ]";
         }
     }
 
-    static void initGlobalTypes(){
-        typeClass* t_obj = new typeClass("LoLi Object");
-        typeClass* t_num = t_obj->newChildType("Number");
-        typeClass* t_int = t_num->newChildType("Integer");
-        typeClass* t_flt = t_num->newChildType("Float");
-        typeClass* t_rat = t_num->newChildType("Ratio");
-        typeClass* t_sym = t_obj->newChildType("Symbol");
-        typeClass* t_key = t_obj->newChildType("Keyword");
-        typeClass* t_bool = t_key->newChildType("Boolean");
-        typeClass* t_fn = t_obj->newChildType("Function");
-        typeClass* t_prim = t_fn->newChildType("Primitive Funtion");
-        typeClass* t_lambda = t_fn->newChildType("Lambda Expression");
-        typeClass* t_pair = t_obj->newChildType("Pair");
-        typeClass* t_char = t_obj->newChildType("Character");
-        typeClass* t_str = t_char->newListedType("String");
+    string compoundType::to_string(bool inside){
+        if(inside){
+            return this->to_string();
+        }else{
+            return "[ " + this->to_string();
+        }
+    }
+
+    void initGlobalTypes(){
+        t_obj = new typeClass("Object");
+        t_num = t_obj->newChildType("Number");
+        t_int = t_num->newChildType("Integer");
+        t_flt = t_num->newChildType("Float");
+        t_rat = t_num->newChildType("Ratio");
+        t_sym = t_obj->newChildType("Symbol");
+        t_key = t_obj->newChildType("Keyword");
+        t_bool = t_key->newChildType("Boolean");
+        t_fn = t_obj->newChildType("Function");
+        t_prim = t_fn->newChildType("Primitive Funtion");
+        t_lambda = t_fn->newChildType("Lambda Expression");
+        t_pair = t_obj->newChildType("Pair");
+        t_char = t_obj->newChildType("Character");
+        t_str = t_char->newListedType("String");
         
-        global_types_iterator = global_types.begin();
     }
 }

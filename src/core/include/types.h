@@ -19,37 +19,18 @@
 #ifndef __TYPES_H__
 #define __TYPES_H__
 
-#include "gc.h"
 #include <stdlib.h>
 #include <string>
-#include <vector>
 
 using namespace std;
 
 namespace lolilang{
 
-    //    typeId:
-    //        OBJ,
-    //        NUM,
-    //        INT,
-    //        FLT,
-    //        RAT,
-    //        SYM,
-    //        KEY,
-    //        BOOL,
-    //        FN,
-    //        LAMBDA,
-    //        PROC,
-    //        CONS,
-    //        CHAR,
-    //        STR
-
     class typeClass{
         public:
             string id;  
             typeClass* parent;
-            vector<typeClass*> children;
-            vector<typeClass*>::iterator iteratorOfChildren;
+            typeClass** children;
             bool listOf;
             bool compund;
 
@@ -74,19 +55,32 @@ namespace lolilang{
             compoundType();
 
             compoundType(typeClass* tc);
-            
+
             compoundType(typeClass* tc, typeClass* n);
 
             ~compoundType();
 
             string to_string();
+            string to_string(bool inside);
 
     };
 
-    static vector<typeClass*> global_types;
-    static vector<typeClass*>::iterator global_types_iterator;
+    static typeClass* t_obj;
+    static typeClass* t_num;
+    static typeClass* t_int;
+    static typeClass* t_flt;
+    static typeClass* t_rat;
+    static typeClass* t_sym;
+    static typeClass* t_key;
+    static typeClass* t_bool;
+    static typeClass* t_fn;
+    static typeClass* t_prim;
+    static typeClass* t_lambda;
+    static typeClass* t_pair;
+    static typeClass* t_char;
+    static typeClass* t_str;
 
-    static void initGlobalTypes();
+    void initGlobalTypes();
 }
 
 #endif
