@@ -46,11 +46,6 @@ namespace lolilang{
     }
 
     typeClass::~typeClass(){
-        for(iteratorOfChildren = children.begin();
-                iteratorOfChildren != children.end();
-                iteratorOfChildren ++){
-            delete *iteratorOfChildren;
-        }
     }
 
     string typeClass::to_string(){

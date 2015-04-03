@@ -30,7 +30,6 @@ namespace lolilang{
         public:
             string id;  
             typeClass* parent;
-            typeClass** children;
             bool listOf;
             bool compund;
 
