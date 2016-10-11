@@ -1,12 +1,11 @@
-Interpreter in C / C++
-Compiler that compiles LoLi code into LLVM IR
+Interpreter in C / C++ / Common Lisp
+Compiler that compiles LoLi code into GoriGori
 Combine the whole thing
 Cheers
 
 Misc:
 Visual-LoLi (DSL for making text editor in LoLi)
-LoLi-Web (Web framework in LoLi) (Need a better name)
-LoLi-ASM (Assembler in LoLi) (Need a better name)
+LoLi-Web (Web framework in LoLi) (Implemented as LoLi-WF)
 
 Goal:
 To make LoLi a real "full-stack" language including:

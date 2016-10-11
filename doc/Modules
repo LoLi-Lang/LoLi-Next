@@ -9,5 +9,6 @@ Module Lists:
 
 * GUI (gui)
 - Provides GTK+ interface in LoLi (Based on GTK or GTKmm)
+- Or a FFI binding to GTK+ / Qt / etc.
 
 TBC.

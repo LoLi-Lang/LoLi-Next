@@ -1,5 +1,5 @@
 # LoLi-Next
-LoLi-Next is the next generation of LoLi, featuring Lazy-Evaluation (optional), Recursive Type Class, New Environment (Namespace) design and the core part of LoLi - Context Based Meaning Inferrence system.
+From now on, LoLi-Next will be a Lisp dialect with dependent type et al. that compiles to [GoriGoriVM](https://github.com/Z-Shang/GoriGoriVM).
 
-# For Those Who Don't Know LoLi
-LoLi is a Lisp dialect which combines the features of LISP-1 and LISP-2 with a polymorphic Lambda Calculus implementaion
+# License
+GPLv3+
